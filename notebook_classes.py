@@ -1,5 +1,6 @@
 from collections import UserDict, UserList
 from datetime import datetime
+import json
 
 
 class Field:
@@ -48,6 +49,9 @@ class Record:
     def __str__(self) -> str:
         return f"{self.id_counter:>3}|{self.date.value:^20}|{self.title.value:^10}| {self.content.value[0:10]:<50}|"
 
+    def __json__(self):
+        return f"{self.id_counter}|{self.date.value}|{self.title.value}|{self.content.value}"
+
     def add_content(self):
         pass
 
@@ -78,7 +82,11 @@ class NoteBook(UserDict):
         pass
 
     def save_notebook(self):
-        pass
+        with open('notebook1.json', 'w') as file:
+            notebook_data = {
+                'notebook': [record.__json__() for record in self.data.values()]
+            }
+            json.dump(notebook_data, file)
 
     def load_natebook(self):
         pass
@@ -107,11 +115,13 @@ def main():
 
     # print(notebook.data)
     # Виведення всіх записів у книзі
-    print('-'*88)
-    print(f"{'ID':>3}|{'Date':^20}|{'Title':^10}| {'Content':<50}|")
-    print('-'*88)
-    for name, record in notebook.data.items():
-        print(record)
+    # print('-'*88)
+    # print(f"{'ID':>3}|{'Date':^20}|{'Title':^10}| {'Content':<50}|")
+    # print('-'*88)
+    # for name, record in notebook.data.items():
+    #     print(record)
+
+    notebook.save_notebook()
 
 if __name__ == '__main__':
     main()
