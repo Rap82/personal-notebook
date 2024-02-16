@@ -46,7 +46,7 @@ class Record:
         self.content = Content(content)
 
     def __str__(self) -> str:
-        return f"| {self.date} | {self.title} | {self.content.value[0:10]}"
+        return f"{self.id_counter:>3}|{self.date.value:^20}|{self.title.value:^10}| {self.content.value[0:10]:<50}|"
 
     def add_content(self):
         pass
@@ -55,6 +55,9 @@ class Record:
         pass
 
     def change_title(self):
+        pass
+
+    def show_record(self):
         pass
 
 
@@ -104,8 +107,11 @@ def main():
 
     # print(notebook.data)
     # Виведення всіх записів у книзі
+    print('-'*88)
+    print(f"{'ID':>3}|{'Date':^20}|{'Title':^10}| {'Content':<50}|")
+    print('-'*88)
     for name, record in notebook.data.items():
-        print(name, record)
+        print(record)
 
 if __name__ == '__main__':
     main()
