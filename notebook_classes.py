@@ -9,10 +9,6 @@ class Field:
 
     def __str__(self):
         return str(self.value)
-    
-    # Не знаю нащо воно тут потрібно
-    # def __json__(self):
-    #     return self.value
 
 
 class Title(Field):
@@ -44,7 +40,6 @@ class TitleDate(Field):
 
 class Record:
     def __init__(self, title_date, title, content, id_counter = 1):
-        # self.data = [TitleDate(title_date), Title(title), Content(content)]
         self.id_counter = id_counter
         self.date = TitleDate(title_date)
         self.title = Title(title)
@@ -54,20 +49,13 @@ class Record:
         return f"{self.id_counter:>3}|{self.date.value:^20}|{self.title.value:^10}| {self.content.value[0:10] + '...':<50}|"
 
     def __json__(self):
-        # result_dict = dict()
         result_dict = {
-            self.id_counter: [
-                self.date.value,
-                self.title.value,
-                self.content.value,
-            ],
+            self.id_counter: {
+                "date": self.date.value,
+                "title": self.title.value,
+                "content": self.content.value,
+            },
         }
-        # result_list = list()
-        # result_list.insert(0, self.date.value)
-        # result_list.insert(1, self.title.value)
-        # result_list.insert(2, self.content.value)
-        # result_dict.update({self.id_counter: result_list})
-        # return f"{self.id_counter}|{self.date.value}|{self.title.value}|{self.content.value}"
         return result_dict
 
     def add_content(self):
@@ -107,7 +95,10 @@ class NoteBook(UserDict):
             json.dump(notebook_data, file, indent=2)
 
     def load_natebook(self):
-        pass
+        with open('notebook1.json', "r") as file:
+            opened_notebook = json.load(file)
+            records = [Record(record["name"], record.get("birthday")) for record in opened_notebook.get("notebook", [])]
+        return opened_notebook
 
 
 def main():
@@ -140,6 +131,9 @@ def main():
         print(record)
 
     notebook.save_notebook()
+
+    # result = notebook.load_natebook()
+    # print(result)
 
 if __name__ == '__main__':
     main()

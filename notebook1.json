@@ -1,25 +1,25 @@
 {
   "notebook": [
     {
-      "1": [
-        "17/02/2024, 00:10:22",
-        "Test1",
-        "test #teste tet ee111."
-      ]
+      "1": {
+        "date": "17/02/2024, 00:32:03",
+        "title": "Test1",
+        "content": "test #teste tet ee111."
+      }
     },
     {
-      "2": [
-        "17/02/2024, 00:10:22",
-        "Test2",
-        "wwwww www wqqqw eeee rrtyuy uuii."
-      ]
+      "2": {
+        "date": "17/02/2024, 00:32:03",
+        "title": "Test2",
+        "content": "wwwww www wqqqw eeee rrtyuy uuii."
+      }
     },
     {
-      "3": [
-        "17/02/2024, 00:10:22",
-        "Test3",
-        "AA ddddddd sss zxcvvbynm nhynjkukuik yujmumuuimuuimuimui."
-      ]
+      "3": {
+        "date": "17/02/2024, 00:32:03",
+        "title": "Test3",
+        "content": "AA ddddddd sss zxcvvbynm nhynjkukuik yujmumuuimuuimuimui."
+      }
     }
   ]
 }
