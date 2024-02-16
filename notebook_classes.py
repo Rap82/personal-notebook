@@ -1,7 +1,6 @@
 from collections import UserDict, UserList
 from datetime import datetime
 import json
-# dvcv
 
 
 class Field:
@@ -10,6 +9,10 @@ class Field:
 
     def __str__(self):
         return str(self.value)
+    
+    # Не знаю нащо воно тут потрібно
+    # def __json__(self):
+    #     return self.value
 
 
 class Title(Field):
@@ -48,10 +51,24 @@ class Record:
         self.content = Content(content)
 
     def __str__(self) -> str:
-        return f"{self.id_counter:>3}|{self.date.value:^20}|{self.title.value:^10}| {self.content.value[0:10]:<50}|"
+        return f"{self.id_counter:>3}|{self.date.value:^20}|{self.title.value:^10}| {self.content.value[0:10] + '...':<50}|"
 
     def __json__(self):
-        return f"{self.id_counter}|{self.date.value}|{self.title.value}|{self.content.value}"
+        # result_dict = dict()
+        result_dict = {
+            self.id_counter: [
+                self.date.value,
+                self.title.value,
+                self.content.value,
+            ],
+        }
+        # result_list = list()
+        # result_list.insert(0, self.date.value)
+        # result_list.insert(1, self.title.value)
+        # result_list.insert(2, self.content.value)
+        # result_dict.update({self.id_counter: result_list})
+        # return f"{self.id_counter}|{self.date.value}|{self.title.value}|{self.content.value}"
+        return result_dict
 
     def add_content(self):
         pass
@@ -87,7 +104,7 @@ class NoteBook(UserDict):
             notebook_data = {
                 'notebook': [record.__json__() for record in self.data.values()]
             }
-            json.dump(notebook_data, file)
+            json.dump(notebook_data, file, indent=2)
 
     def load_natebook(self):
         pass
@@ -100,7 +117,7 @@ def main():
     notebook = NoteBook()
 
     record_title = "Test1"
-    record_content = "test teste tet ee."
+    record_content = "test #teste tet ee111."
     record_init = Record(current_date, record_title, record_content, id_counter)
     notebook.add_record(record_init)
 
@@ -116,11 +133,11 @@ def main():
 
     # print(notebook.data)
     # Виведення всіх записів у книзі
-    # print('-'*88)
-    # print(f"{'ID':>3}|{'Date':^20}|{'Title':^10}| {'Content':<50}|")
-    # print('-'*88)
-    # for name, record in notebook.data.items():
-    #     print(record)
+    print('-'*88)
+    print(f"{'ID':>3}|{'Date':^20}|{'Title':^10}| {'Content':<50}|")
+    print('-'*88)
+    for name, record in notebook.data.items():
+        print(record)
 
     notebook.save_notebook()
 
