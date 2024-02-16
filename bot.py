@@ -91,7 +91,7 @@ class ContactAssistant:
             result = f'{self.GREEN_TEXT}{"Name":<10}  {"Phone":<12}{self.YLLOW_TEXT}\n'
             for record in records:
                 phone_numbers = ', '.join(str(phone) for phone in record.phones)
-                result += f"{f"{record.name}":<10} {phone_numbers}\n" 
+                result += f"{f'{record.name}':<10} {phone_numbers}\n" 
             return result.strip()
 
 
