@@ -25,17 +25,17 @@ class TitleDate(Field):
     def __init__(self, value):
         super().__init__(value)
 
-    def set_date(self, curr_date):
-        self._value = datetime.strftime(curr_date, "%d/%m/%Y, %H:%M:%S")
+    # def set_date(self, curr_date):
+    #     self._value = datetime.strftime(curr_date, "%d/%m/%Y, %H:%M:%S")
     
-    @property
-    def value(self):
-        return self._value
+    # @property
+    # def value(self):
+    #     return self._value
     
-    @value.setter
-    def value(self, curr_date):
-        self._value = curr_date
-        self.set_date(self._value)
+    # @value.setter
+    # def value(self, curr_date):
+    #     self._value = curr_date
+    #     self.set_date(self._value)
 
 
 class Record:
@@ -50,11 +50,10 @@ class Record:
 
     def __json__(self):
         result_dict = {
-            self.id_counter: {
-                "date": self.date.value,
-                "title": self.title.value,
-                "content": self.content.value,
-            },
+            "ID": self.id_counter,
+            "date": self.date.value,
+            "title": self.title.value,
+            "content": self.content.value,
         }
         return result_dict
 
@@ -94,46 +93,54 @@ class NoteBook(UserDict):
             }
             json.dump(notebook_data, file, indent=2)
 
-    def load_natebook(self):
+    def load_notebook(self):
         with open('notebook1.json', "r") as file:
             opened_notebook = json.load(file)
-            records = [Record(record["name"], record.get("birthday")) for record in opened_notebook.get("notebook", [])]
-        return opened_notebook
+            records = [Record(record["date"], record["title"], record["content"], record["ID"]) for record in opened_notebook.get("notebook", [])]
+        return records
 
 
 def main():
     id_counter = 1
     current_date = datetime.now()
+    current_date_str = datetime.strftime(current_date, "%d/%m/%Y, %H:%M:%S")
     # print(id_counter, current_date)
     notebook = NoteBook()
 
-    record_title = "Test1"
-    record_content = "test #teste tet ee111."
-    record_init = Record(current_date, record_title, record_content, id_counter)
-    notebook.add_record(record_init)
+    # record_title = "Test1"
+    # record_content = "test #teste tet ee111."
+    # record_init = Record(current_date_str, record_title, record_content, id_counter)
+    # notebook.add_record(record_init)
 
-    record_title2 = "Test2"
-    record_content2 = "wwwww www wqqqw eeee rrtyuy uuii."
-    record_init2 = Record(current_date, record_title2, record_content2, id_counter=2)
-    notebook.add_record(record_init2)
+    # record_title2 = "Test2"
+    # record_content2 = "wwwww www wqqqw eeee rrtyuy uuii."
+    # record_init2 = Record(current_date_str, record_title2, record_content2, id_counter=2)
+    # notebook.add_record(record_init2)
 
-    record_title3 = "Test3"
-    record_content3 = "AA ddddddd sss zxcvvbynm nhynjkukuik yujmumuuimuuimuimui."
-    record_init3 = Record(current_date, record_title3, record_content3, id_counter=3)
-    notebook.add_record(record_init3)
+    # record_title3 = "Test3"
+    # record_content3 = "AA ddddddd sss zxcvvbynm nhynjkukuik yujmumuuimuuimuimui."
+    # record_init3 = Record(current_date_str, record_title3, record_content3, id_counter=3)
+    # notebook.add_record(record_init3)
+    
+    # notebook.save_notebook()
 
-    # print(notebook.data)
-    # Виведення всіх записів у книзі
+    result = notebook.load_notebook()
+    # print(result)
+    # # Виведення всіх записів у книзі
     print('-'*88)
     print(f"{'ID':>3}|{'Date':^20}|{'Title':^10}| {'Content':<50}|")
     print('-'*88)
-    for name, record in notebook.data.items():
-        print(record)
+    for index in range(len(result)):
+        print(result[index].__str__())
 
-    notebook.save_notebook()
+    # print(notebook.data)
+    # # Виведення всіх записів у книзі
+    # print('-'*88)
+    # print(f"{'ID':>3}|{'Date':^20}|{'Title':^10}| {'Content':<50}|")
+    # print('-'*88)
+    # for name, record in notebook.data.items():
+    #     print(record)
 
-    # result = notebook.load_natebook()
-    # print(result)
 
 if __name__ == '__main__':
     main()
